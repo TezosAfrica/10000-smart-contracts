@@ -11,5 +11,7 @@ Read more here https://opentezos.com/tezos-basics/operations#implicit-accounts-a
 - Checkout the deployed version of this smart contract here on Granada Testnet.
 - Be sure to try it out
 
-
 https://better-call.dev/granadanet/KT1R2jYKDsx2w4VYQQUjNQXyt66rAi7wxMBF/operations
+
+
+- Read more about default entry points in smartpy here 👉 https://smartpy.io/docs/introduction/entry_points#define-a-default-entry-point
