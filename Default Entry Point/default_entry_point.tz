@@ -1,0 +1,14 @@
+parameter (unit %default);
+storage   (list (pair (address %address) (mutez %amount)));
+code
+  {
+    CDR;        # @storage
+    # == default ==
+    # self.data.payments.push(sp.record(address = sp.source, amount = sp.amount)) # @storage
+    AMOUNT;     # @amount : @storage
+    SOURCE;     # @source : @amount : @storage
+    PAIR;       # pair @source @amount : @storage
+    CONS;       # list (pair address mutez)
+    NIL operation; # list operation : list (pair address mutez)
+    PAIR;       # pair (list operation) (list (pair address mutez))
+  };
