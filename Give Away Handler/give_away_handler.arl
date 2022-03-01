@@ -1,0 +1,43 @@
+archetype give_away_handler
+
+asset payins identified by account {
+    account: address;
+    amount: tez = 0tz;
+    event: list<string * tez>;
+}
+
+record receiver {
+    acc: address;
+    amt: tez;
+}
+
+constant INSUFFICIENT_LOCKED_AMOUNT : string = "Insufficient Locked Amount"
+
+entry lock_amount(desc: string) {
+    effect {
+        var ev: list<string * tez> = [];
+        if payins.contains(caller) then (
+            ev := payins[caller].event;
+        );
+        payins.addupdate(caller, { amount += transferred; event = prepend(ev, (desc, transferred))})
+    }
+}
+
+entry distribute(receivers : list<receiver>) {
+    require { 
+        r1: payins.contains(caller);
+        r2: payins[caller].amount > 0tz;
+    }
+
+    effect {
+        var val = payins[caller].amount;
+        for rec in receivers do 
+            if val < rec.amt then fail(INSUFFICIENT_LOCKED_AMOUNT)
+            else (
+                transfer rec.amt to rec.acc;
+                val -= rec.amt
+            )
+        done;
+        payins.update(caller, { amount = val });
+    }
+}

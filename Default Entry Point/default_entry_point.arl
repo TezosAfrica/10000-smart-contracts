@@ -1,0 +1,16 @@
+archetype default_entry
+
+asset payins identified by account {
+    account: address;
+    amount: tez = 0tz
+}
+
+entry default() { 
+    require {
+        r1 otherwise "ZER0_TRANSFER_FORBIDDEN": transferred > 0tz;
+    }
+
+    effect {
+        payins.addupdate(caller, { amount += transferred })
+    }
+ }
